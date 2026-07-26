@@ -1,14 +1,21 @@
 {
   "expo": {
-    "name": "northstar-ai",
-    "slug": "northstar-ai",
+    "name": "Northstar AI",
+    "slug": "kartelanti",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "northstarai",
     "userInterfaceStyle": "automatic",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "ai.kartelanti.app",
+      "infoPlist": {
+        "NSCalendarsUsageDescription": "Northstar reads your calendar to build a realistic daily plan around your fixed commitments. It does not write to your calendar without explicit confirmation.",
+        "NSCalendarsFullAccessUsageDescription": "Northstar reads your calendar to build a realistic daily plan around your fixed commitments. It does not write to your calendar without explicit confirmation.",
+        "NSRemindersUsageDescription": "Northstar schedules local reminders for upcoming tasks and focus blocks. No data leaves your device.",
+        "UIBackgroundModes": ["fetch", "remote-notification"]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -17,7 +24,14 @@
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "ai.kartelanti.app",
+      "permissions": [
+        "READ_CALENDAR",
+        "WRITE_CALENDAR",
+        "RECEIVE_BOOT_COMPLETED",
+        "SCHEDULE_EXACT_ALARM"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +47,17 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      [
+        "expo-sqlite",
+        {
+          "enableFTS": false
+        }
+      ],
+      "expo-secure-store",
+      "expo-localization",
+      "expo-notifications",
+      "expo-calendar"
     ],
     "experiments": {
       "typedRoutes": true
