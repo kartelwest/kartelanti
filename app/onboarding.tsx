@@ -8,6 +8,8 @@ import { Card } from '@/components/ui/Card';
 import { Input } from '@/components/ui/Input';
 import { Text } from '@/components/ui/Text';
 import { userPreferencesRepo } from '@/src/database/repositories';
+import { seedSampleData } from '@/src/database/seed';
+import { queryClient } from '@/src/state/queryClient';
 import { useTheme } from '@/src/theme';
 import type { EnergyLevel } from '@/src/types';
 
@@ -44,6 +46,8 @@ export default function OnboardingScreen() {
       defaultTravelBufferMinutes: parseInt(defaultTravelBuffer, 10) || 0,
       onboardingCompleted: true,
     });
+    await seedSampleData();
+    await queryClient.invalidateQueries({ queryKey: ['tasks'] });
     router.replace('/(tabs)');
   };
 

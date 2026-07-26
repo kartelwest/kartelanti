@@ -1,4 +1,4 @@
-import { addDays, addMinutes, differenceInMinutes, isAfter, isBefore, isSameDay, setHours, setMinutes, startOfDay } from 'date-fns';
+import { addDays, addMinutes, differenceInMinutes, isAfter, isBefore, setHours, setMinutes, startOfDay } from 'date-fns';
 import type { ConfidenceLevel, EnergyLevel, ScheduleBlock, ScheduleResult, Task, TimeOfDay } from '@/src/types';
 
 export interface ScheduleRequest {
@@ -73,7 +73,7 @@ export function buildSchedule(request: ScheduleRequest): ScheduleResult {
 
   const dateCursor = new Date(rangeStart);
 
-  while (isBefore(dateCursor, rangeEnd) || isSameDay(dateCursor, rangeEnd)) {
+  while (isBefore(dateCursor, rangeEnd)) {
     const dayStart = applyTime(dateCursor, availability.start);
     const dayEnd = applyTime(dateCursor, availability.end);
 
@@ -84,7 +84,7 @@ export function buildSchedule(request: ScheduleRequest): ScheduleResult {
     }
 
     const dayFixed = fixedEvents
-      .filter((e) => overlaps(e.start, e.end, dayStart, dayEnd) || isSameDay(e.start, dateCursor))
+      .filter((e) => overlaps(e.start, e.end, dayStart, dayEnd))
       .filter((e) => !e.isAllDay);
 
     const busyIntervals: FreeInterval[] = [];
@@ -324,7 +324,7 @@ function placeTasksForDay(
       if (differenceInMinutes(interval.end, interval.start) < Math.max(chunkSize, task.minimumChunkMinutes)) continue;
       if (dailyFocusUsed + chunkSize > request.dailyFocusMaxMinutes) break;
 
-      const start = isBefore(interval.start, now) && isSameDay(interval.start, now) ? now : interval.start;
+      const start = isBefore(interval.start, now) && startOfDay(interval.start).getTime() === startOfDay(now).getTime() ? now : interval.start;
       if (isAfter(start, interval.end)) continue;
 
       const end = addMinutes(start, chunkSize);

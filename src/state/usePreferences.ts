@@ -5,6 +5,8 @@ import type { UserPreferences } from '@/src/types';
 export function usePreferences() {
   const { data: preferences, isLoading: loading, refetch } = useQuery<UserPreferences | null>({
     queryKey: ['preferences'],
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryFn: () => userPreferencesRepo.get(),
   });
 

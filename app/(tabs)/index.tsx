@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { Pressable, ScrollView, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
@@ -14,10 +14,9 @@ import { friendlyDate, friendlyTime } from '@/src/utils/date';
 
 export default function TodayScreen() {
   const theme = useTheme();
+  const [today] = useState(() => new Date());
   const { tasks } = useTasks();
-  const { blocks, confidence, rebuild, loading } = useSchedule(new Date());
-
-  const today = new Date();
+  const { blocks, confidence, rebuild, loading } = useSchedule(today);
 
   const greeting = (name: string) => {
     const hour = today.getHours();

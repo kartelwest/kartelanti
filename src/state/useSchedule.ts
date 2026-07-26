@@ -7,6 +7,8 @@ import { addDays, startOfDay } from '@/src/utils/date';
 export function useSchedule(date: Date) {
   const { data: result, isLoading: loading, refetch } = useQuery<ScheduleResult>({
     queryKey: ['schedule', date.toISOString()],
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryFn: async () => {
       const [tasks, prefs] = await Promise.all([tasksRepo.getActive(), userPreferencesRepo.get()]);
       const defaultPrefs: UserPreferences = {

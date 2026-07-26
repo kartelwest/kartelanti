@@ -4,6 +4,9 @@ import { addDays, startOfDay, toISO } from '@/src/utils/date';
 import type { FixedEvent, Task } from '@/src/types';
 
 export async function seedSampleData(): Promise<void> {
+  const existing = await tasksRepo.getAll();
+  if (existing.length > 0) return;
+
   const today = startOfDay(new Date());
   const tomorrow = addDays(today, 1);
 

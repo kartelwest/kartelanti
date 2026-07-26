@@ -5,6 +5,8 @@ import type { InboxCapture } from '@/src/types';
 export function useInbox() {
   const { data: captures = [], isLoading: loading, refetch } = useQuery<InboxCapture[]>({
     queryKey: ['inbox'],
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryFn: () => inboxCapturesRepo.getAll(),
   });
 

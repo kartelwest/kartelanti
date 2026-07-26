@@ -5,6 +5,8 @@ import type { Task } from '@/src/types';
 export function useTasks() {
   const { data: tasks = [], isLoading: loading, refetch } = useQuery<Task[]>({
     queryKey: ['tasks'],
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryFn: () => tasksRepo.getActive(),
   });
 
